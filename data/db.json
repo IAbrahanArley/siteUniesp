@@ -30,5 +30,17 @@
       "subtitulo": "aaaa",
       "texto": "teste"
     }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "123456"
+    },
+    {
+      "id": 2,
+      "username": "user1",
+      "password": "password"
+    }
   ]
 }
