@@ -1,6 +1,6 @@
 import { Container, CssBaseline, Box } from '@mui/material'
 import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import NavBar from './components/NavBar'
 import BannerAd from './components/BannerAd'
 import Login from './pages/Login';
@@ -14,6 +14,7 @@ import VisualizaNoticia from './pages/VisualizaNoticia'
 import AdminNoticias from './pages/admin/AdminNoticias'
 import CadastroNoticia from './pages/admin/CadastroNoticias'
 import EditarNoticia from './pages/admin/EditarNoticia'
+import { useConta } from './hooks/useConta'
 
 const Layout = () => {
   return (
@@ -91,13 +92,22 @@ const LoginLayout = () => {
   );
 };
 
+const UsuarioNaoEstaLogado = ({ element }) => {
+  const { auth } = useConta();
+  return auth ? element : <Navigate to="/login" />;
+};
+
+const UsuarioEstaLogado = ({ element }) => {
+  const { auth } = useConta();
+  return auth ? <Navigate to="/admin-noticias"/>  : element ;
+};
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginLayout />}>
-          <Route index element={<Login />} />
+          <Route index element ={ <UsuarioEstaLogado element={<Login />} />} />
         </Route>
 
         <Route path="/" element={<Layout />}>
@@ -106,9 +116,9 @@ const App = () => {
           <Route path="dpo-lgpd" element={<DpoLgpd />} />
           <Route path="noticias" element={<Noticias />} />
           <Route path="visualiza-noticia/:id" element={<VisualizaNoticia />} />
-          <Route path="admin-noticias" element={<AdminNoticias />} />
-          <Route path="cadastrar-noticia" element={<CadastroNoticia />} />
-          <Route path="editar-noticia/:id" element={<EditarNoticia />} />
+          <Route path="admin-noticias" element={<UsuarioNaoEstaLogado element={ <AdminNoticias />} />}/>
+          <Route path="cadastrar-noticia" element={<UsuarioNaoEstaLogado element={ <CadastroNoticia />} />}/> 
+          <Route path="editar-noticia/:id"element={<UsuarioNaoEstaLogado element={ <EditarNoticia />} />}/> 
         </Route>
       </Routes>
     </BrowserRouter>

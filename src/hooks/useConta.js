@@ -6,7 +6,6 @@ export const useConta = () => {
     useEffect(() =>{
         const user = JSON.parse(localStorage.getItem('user') ) || null;
         user ? setAuth(true) : setAuth(false);
-
     },  [])
     return { auth };
 };
