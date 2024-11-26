@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Box, Typography, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import ContaService from '../services/ContaService';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -11,26 +12,10 @@ const Login = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-
-    try {
-      const response = await axios.get('http://localhost:3000/users', {
-        params: {
-          username: username,
-          password: password,
-        },
-      });
-
-      const data = response.data;
-
-      if (data.length > 0) {
-        localStorage.setItem('user', JSON.stringify(data[0]));
-        navigate('/admin'); 
-      } else {
-        setError('Usuário ou senha inválidos.');
-      }
-    } catch (err) {
-      setError('Erro ao conectar ao servidor.');
-    }
+    const res = await ContaService.login(username, password);
+    console.log(res)
+    res && navigate('/admin-noticias');
+    
   };
 
   return (
