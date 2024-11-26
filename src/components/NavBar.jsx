@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import { AppBar, Toolbar, Button, Box, IconButton, Menu, MenuItem, Container } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import MenuIcon from '@mui/icons-material/Menu'
+import { useConta } from '../hooks/useConta'
+import ContaService from '../services/ContaService'
 
 const NavBar = () => {
+  const { auth } = useConta();
   const [anchorEl, setAnchorEl] = useState(null)
+  const navigate = useNavigate();
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget)
@@ -12,6 +16,13 @@ const NavBar = () => {
 
   const handleMenuClose = () => {
     setAnchorEl(null)
+  }
+
+  const handleLogout = () => {
+    ContaService.logout();
+    navigate('/');
+    window.location.reload();
+
   }
 
   return (
@@ -22,18 +33,41 @@ const NavBar = () => {
             <img src="uniesp.jpg" alt="Uniesp Logo" width={80} height={80} />
           </IconButton>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, ml: 15 }}>
-            <Button color="inherit" component={Link} to="/a-faculdade">
-              A Faculdade
-            </Button>
-            <Button color="inherit" component={Link} to="/dpo-lgpd">
-              DPO LGPD
-            </Button>
-            <Button color="inherit" component={Link} to="/noticias">
-              Notícias
-            </Button>
-            <Button color="inherit" component={Link} to="/admin-noticias">
-              Admin
-            </Button>
+            {!auth ? (
+              <>
+                <Button color="inherit" component={Link} to="/a-faculdade">
+                  A Faculdade
+                </Button>
+                <Button color="inherit" component={Link} to="/dpo-lgpd">
+                  DPO LGPD
+                </Button>
+                <Button color="inherit" component={Link} to="/noticias">
+                  Notícias
+                </Button>
+                <Button color="inherit" component={Link} to="/login">
+                  Login
+                </Button>
+              </>
+
+            ) : (
+              <>
+                <Button color="inherit" component={Link} to="/a-faculdade">
+                  A Faculdade
+                </Button>
+                <Button color="inherit" component={Link} to="/dpo-lgpd">
+                  DPO LGPD
+                </Button>
+                <Button color="inherit" component={Link} to="/noticias">
+                  Notícias
+                </Button>
+                <Button color="inherit" component={Link} to="/admin-noticias">
+                  Admin
+                </Button>
+                <Button color="inherit" component={Link} onClick={handleLogout}>
+                  Sair
+                </Button>
+              </>
+            )}
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton color="inherit" edge="end" onClick={handleMenuOpen}>
@@ -57,6 +91,7 @@ const NavBar = () => {
               <MenuItem onClick={handleMenuClose} component={Link} to="/admin-noticias">
                 Admin
               </MenuItem>
+           
             </Menu>
           </Box>
         </Toolbar>

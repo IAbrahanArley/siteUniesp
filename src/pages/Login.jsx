@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button, Box, Typography, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import ContaService from '../services/ContaService';
 
 const Login = () => {
@@ -13,7 +12,6 @@ const Login = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
     const res = await ContaService.login(username, password);
-    console.log(res)
     res && navigate('/admin-noticias');
     
   };
