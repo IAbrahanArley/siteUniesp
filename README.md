@@ -38,5 +38,37 @@ Antes de começar, certifique-se de ter as seguintes ferramentas instaladas:
 ### 1. Clonar o Repositório
 
 ```bash
-git clone <URL_DO_REPOSITORIO>
+git clone git@github.com:IAbrahanArley/siteUniesp.git
 cd site_uniesp
+```
+### 2. Instalar Dependências
+
+```bash
+npm install
+```
+
+### 3. Iniciar o Backend Simulado
+O arquivo db.json em src/data contém os dados simulados da aplicação. Para rodar o json-server, execute:
+
+```bash
+npm json-server 
+```
+O servidor estará disponível em http://localhost:3000.
+
+### 4. Iniciar o Front-end
+Para rodar o projeto React:
+```bash
+npm run dev
+```
+O servidor estará disponível em http://localhost:5173.
+
+---
+
+### Tecnologias Utilizadas
+- Front-end
+- React.js
+- Vite
+- @mui/material
+- Axios (para requisições HTTP)
+- json-server
+- @heroicons
