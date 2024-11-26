@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Button, TextField, Typography, Box } from '@mui/material'
-
-const url = "http://localhost:3000/noticias"
+import NoticiasService from '../../services/NoticiasService'
 
 const EditarNoticia = () => {
   const { id } = useParams()
@@ -15,7 +14,7 @@ const EditarNoticia = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`${url}/${id}`)
+        const res = await NoticiasService.buscarNoticiaPorId(id);
         setTitulo(res.data.titulo)
         setSubtitulo(res.data.subtitulo)
         setTexto(res.data.texto)
@@ -29,7 +28,7 @@ const EditarNoticia = () => {
   const editarNoticia = async (e) => {
     e.preventDefault()
     try {
-      await axios.put(`${url}/${id}`, { titulo, subtitulo, texto })
+      await NoticiasService.editarNoticia(id, titulo, subtitulo, texto )
       navigate('/admin-noticias')
     } catch (error) {
       console.error("Erro ao editar a notícia: ", error)
